@@ -1,0 +1,12 @@
+{% if results %}
+  <h2>Search Note Results</h2>
+  <ul>
+    {% for note in results %}
+      <li>{{ note.title }}</li>
+        <a href="{% url 'delete_note' pk=note.pk %}">Delete</a>
+      <a href="{% url 'note_edit' pk=note.pk %}">Edit</a>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No results found.</p>
+{% endif %}

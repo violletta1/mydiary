@@ -1,0 +1,12 @@
+{% if results %}
+  <h2>Search Results</h2>
+  <ul>
+    {% for post in results %}
+      <li>{{ post.title }}</li>
+        <a href="{% url 'delete_post' pk=post.pk %}">Delete</a>
+      <a href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No results found.</p>
+{% endif %}

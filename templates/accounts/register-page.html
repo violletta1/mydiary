@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+Current user is {{ request.user }}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fancy Pink Register</title>
+  <style>
+
+    .register-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background-color: #f9e2e4; /* Light pink container */
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #ff4d78; /* Pink color for labels */
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #f390a7; /* Pink border */
+      border-radius: 3px;
+      font-size: 16px;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff4d78; /* Brighter pink on focus */
+    }
+
+    .register-button {
+      background-color: #ff4d78; /* Pink button */
+      color: #ffffff;
+      font-size: 16px;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .register-button:hover {
+      background-color: #ff3c6c; /* Slightly darker pink on hover */
+    }
+
+    .login-button {
+      background-color: #ff4d78; /* Pink button */
+      color: #ffffff;
+      font-size: 16px;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .login-button:hover {
+      background-color: #ff3c6c; /* Slightly darker pink on hover */
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .register-footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #999999;
+    }
+
+    .register-footer a {
+      color: #999999;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <form method="POST" action="{% url 'register_user' %}">
+    {{ form.as_p }}
+
+{#        <input type="hidden" name="next" value="{{ next }}">#}
+         {% csrf_token %}
+    <div>
+        <button type="submit" class="register-button">Register</button>
+    </div>
+
+</form>
+       <div class="register-footer">
+      Already have an account? <a href="{% url 'login_user' %}">Login</a>
+    </div>
+  </div>
+</body>
+{% endblock %}

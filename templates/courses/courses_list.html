@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Course LIST{% endblock %}
+{% block content %}
+
+ <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">This is a course page list</h1>
+        <p class="lead text-body-secondary">All courses at one place.Currently {{ courses.count }}courses</p>
+          {% if user.is_authenticated and is_practitioner %}
+        <p>
+          <a href="{% url 'create_course' %}" class="btn btn-primary my-2">Create course</a>
+          {% endif %}
+          <form action="{% url 'course_search' %}" method="GET" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></form>
+{#          <a href="#" class="btn btn-secondary my-2">Secondary action</a>#}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for course in courses %}
+        <div class="col">
+          <div class="card shadow-sm">
+              {% if not course.image %}
+                    <img class="course-img" src="{% static 'images/logo.png' %}" alt="course image" style="width: 400px; height: 300px;">
+              {% else %}
+                    <img class="course-img" src="{{course.image}}" alt="course image" style="width: 400px; height: 300px;">
+              {% endif %}
+            <div class="card-body">
+              <p class="card-text">{{ course.title}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    {% if user.is_authenticated and is_practitioner %}
+                          <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'edit_course' pk=course.pk %}">Edit</a>
+                    {% endif %}
+                          <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'details_course' pk=course.pk %}">View</a>
+{#                     <a href="{% url 'add-comment' course.title %}" class="button">Comment</a>#}
+
+                </div>
+                <small class="text-body-secondary">Status: {{ course.created_at}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endfor%}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

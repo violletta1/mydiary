@@ -1,0 +1,12 @@
+{% if results %}
+  <h2>Search course Results</h2>
+  <ul>
+    {% for course in results %}
+      <li>{{ course.title }}</li>
+        <a href="{% url 'delete_course' pk=course.pk %}">Delete</a>
+      <a href="{% url 'edit_course' pk=course.pk %}">Edit</a>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No results found.</p>
+{% endif %}

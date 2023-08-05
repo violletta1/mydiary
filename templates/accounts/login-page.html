@@ -1,0 +1,99 @@
+
+{% extends 'base.html' %}
+{% block title %}
+  Login
+{% endblock %}
+{% block content %}
+Current user is {{ request.user }}
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background-color: #f9e2e4; /* Pink background */
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-header {
+      text-align: center;
+      font-size: 24px;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 16px;
+      color: #666666;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      padding: 10px;
+      border: 1px solid #f390a7; /* Pink border */
+      border-radius: 3px;
+      font-size: 16px;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff4d78; /* Brighter pink on focus */
+    }
+
+    .login-button {
+      background-color: #ff4d78; /* Pink button */
+      color: #ffffff;
+      font-size: 16px;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .login-button:hover {
+      background-color: #ff3c6c; /* Slightly darker pink on hover */
+    }
+
+    .login-footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #999999;
+    }
+
+    .login-footer a {
+      color: #999999;
+      text-decoration: none;
+    }
+  </style>
+
+<body>
+  <div class="login-container">
+    <div class="login-header">Login</div>
+        <form method="POST" action="{% url 'login_user' %}">
+            {{ form.as_p }}
+             <button type="submit" class="login-button">Login</button>
+
+           {% csrf_token %}
+        </form>
+      <div class="login-footer">
+      Don't have an account? <a href="{% url 'register_user' %}">Sign up</a>
+    </div>
+  </div>
+</body>
+{% endblock %}

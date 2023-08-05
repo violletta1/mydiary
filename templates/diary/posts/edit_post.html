@@ -1,0 +1,16 @@
+<!-- edit_post.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+        <!-- Starts Edit Photo Form -->
+        <form action="{% url 'post_edit' pk=post.pk %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <!-- Edit Photo Button -->
+            <button class="edit-btn" type="submit">Edit Post</button>
+  <a href="{% url 'post_details' post.pk %}" class="btn btn-secondary">Cancel</a>
+
+        </form>
+        <!-- End Edit Photo Form -->
+
+{% endblock %}

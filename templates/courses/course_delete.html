@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+    <title>Delete Course</title>
+
+    <h1>Delete Course</h1>
+    <p>Are you sure you want to delete this course?</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Delete</button>
+        <a href="{% url 'details_course' course.pk %}">Cancel</a>
+    </form>
+
+   <!-- End Delete Pet Section -->
+{% endblock %}

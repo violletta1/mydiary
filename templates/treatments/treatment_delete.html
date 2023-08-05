@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+    <title>Delete Treatment</title>
+
+    <h1>Delete Course</h1>
+    <p>Are you sure you want to delete this treatment?</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Delete</button>
+        <a href="{% url 'treatment_details' treatment.pk %}">Cancel</a>
+    </form>
+
+   <!-- End Delete Pet Section -->
+{% endblock %}

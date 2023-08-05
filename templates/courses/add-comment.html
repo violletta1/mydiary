@@ -1,0 +1,27 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#    <section id="register-page" class="content auth">#}
+{#        <form action="{% url 'add-comment' rating.course %}" id="register" method="post">#}
+{#            {% csrf_token %}#}
+{#            <div class="container">#}
+{#                <h1>Add Comment</h1>#}
+{##}
+{#                {{ rating.errors.rating }}#}
+{#                {{ comment.errors.comment }}#}
+{#                <label for="id_rating">Rate course:</label>#}
+{#                {{ rating.rating }}#}
+{#                {{ comment.comment }}#}
+{##}
+{#                <input class="btn submit" type="submit" value="Comment">#}
+{#            </div>#}
+{#        </form>#}
+{#    </section>#}
+{#{% endblock %}#}
+{% block content %}
+<form method="post" action="{% url 'comment_functionality' model='post' model_id=post.pk %}">
+    {% csrf_token %}
+    {{ comment_form }}
+    <button type="submit">Post</button>
+</form>
+{% endblock %}

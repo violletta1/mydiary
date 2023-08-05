@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Pink Fancy CSS - This remains the same as before */
+    .container {
+        font-size: 15px;
+    }
+
+    #image-clear_id {
+        position: relative;
+        top: 30px;
+        left: -150px;
+    }
+
+    br {
+        display: none;
+    }
+
+    h1 {
+        color: #e83a59; /* Pink header text color */
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    input[type="submit"] {
+        background-color: #e83a59; /* Pink submit button background color */
+        color: #fff; /* White text color */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #d02549; /* Darker pink color on hover */
+    }
+
+    /* Adjust form fields style if needed - This remains the same as before */
+    input[type="text"],
+    input[type="email"],
+    select {
+        background-color: snow;
+        border: 1px solid #e83a59;
+        padding: 8px;
+        border-radius: 5px;
+    }
+</style>
+
+<section id="register-page" class="content auth">
+    <div class="container"> {# Create a container div #}
+        <h1>Edit Profile</h1>
+        <form action="{% url 'profile_edit' pk=user.pk %}" id="register" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                {{ form.as_p }} {# Place the form inside the container div #}
+            </div>
+            <div style="text-align: center;">
+                <input class="btn submit" type="submit" value="Submit Changes">
+            </div>
+        </form>
+    </div>
+    {# <p><a style="color: #18C3E8;" href="{% url 'change-password' %}">Change password</a></p> #}
+</section>
+{% endblock %}
+
+
+
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#    <style>#}
+{#        .container {#}
+{#            font-size: 15px;#}
+{#        }#}
+{##}
+{#        #image-clear_id {#}
+{#            position: relative;#}
+{#            top: 30px;#}
+{#            left: -150px;#}
+{#        }#}
+{##}
+{#        br {#}
+{#            display: none;#}
+{#        }#}
+{##}
+{#    </style>#}
+{##}
+{#    <section id="register-page" class="content auth">#}
+{#        <form action="{% url 'profile_edit' pk=user.pk %}" id="register" method="post" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{#            <div class="container">#}
+{#                <h1>Edit Profile</h1>#}
+{##}
+{#                {{ form.as_p }}#}
+{##}
+{#                <input class="btn submit" type="submit" value="Submit Changes">#}
+{#            </div>#}
+{#        </form>#}
+{#        <p><a style="color: #18C3E8;" href="{% url 'change-password' %}">Change password</a></p>#}
+{#    </section>#}
+{#{% endblock %}#}

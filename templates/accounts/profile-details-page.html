@@ -1,0 +1,189 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% include 'courses/courses_list.html' %}
+{% block title %}Myprofile{% endblock %}
+{% block content %}
+
+    <html style="font-size: 16px;" lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="About Us, ​The World Is a Big Place. We&amp;apos;ll Help You Explore It., ​Outdoor Recreation, Get in touch">
+    <meta name="description" content="">
+    <title>profile </title>
+    <link rel="stylesheet" href="{% static 'styles/nicepage.css' %}" media="screen">
+<link rel="stylesheet" href="{% static 'styles/profile-.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'js/nicepage.js' %}" defer=""></script>
+    <meta name="generator" content="Nicepage 5.14.0, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aboreto:400">
+
+
+
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": ""
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="profile">
+    <meta property="og:type" content="website">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <body class="u-body u-xl-mode" data-lang="en">
+<section class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-clearfix u-palette-2-light-3 u-section-1" id="carousel_6336">
+  <div class="u-clearfix u-sheet u-sheet-1">
+    <div class="u-align-left u-container-style u-group u-radius-32 u-shape-round u-white u-group-1">
+      <div class="u-container-layout u-container-layout-1">
+        <h2 class="u-custom-font u-text u-text-default u-text-palette-2-dark-1 u-text-1">{{ user.username }}</h2>
+        <p class="u-text u-text-palette-2-base u-text-2">User Email:  {{ user.email }}</p>
+        <p class="u-text u-text-palette-2-base u-text-3">Name: {{user.first_name}} {{ user.last_name }}</p>
+        <p class="u-text u-text-palette-2-dark-1 u-text-4">Phone: {{ user.phone }}</p>
+        <p class="u-text u-text-palette-2-dark-2 u-text-4">Address: {{ user.address }} </p>
+        <p class="u-text u-text-palette-2-dark-2 u-text-4">Bio: {{ user.bio }} </p>
+            {% if user.gender == 1 %}
+                    <p class="u-text u-text-palette-2-dark-2 u-text-4">Gender: Male </p>
+            {% elif user.gender == 2 %}
+                <p class="u-text u-text-palette-2-dark-2 u-text-4">Gender: Female </p>
+            {% else %}
+                    <p class="u-text u-text-palette-2-dark-2 u-text-4">Gender: Not specified </p>
+            {% endif %}
+        <p class="u-text u-text-palette-2-dark-1 u-text-5">Joined:  {{ user.date_joined }}</p>
+      </div>
+    </div>
+
+       {% if not profile_image  %}
+                <div class="u-image u-image-circle u-preserve-proportions u-image-1"
+              style="background-image: url('{% static 'images/logo.png' %}');"
+              alt=""
+              data-image-width="225"
+              data-image-height="225"></div>
+       {% else %}
+                  <div class="u-image u-image-circle u-preserve-proportions u-image-1"
+              style="background-image: url('{{ profile_image }}');"
+              alt=""
+              data-image-width="225"
+                       data-image-height="225"></div>
+       {% endif %}
+
+            <a href="{% url 'profile_edit' pk=user.pk%}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-2 u-palette-2-dark-1 u-radius-25 u-btn-2">Edit</a>
+            <a href="{% url 'profile_delete' pk=user.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-2 u-palette-2-dark-1 u-radius-25 u-btn-2">Delete</a>
+            </div>
+
+  </div>
+</section>
+    <section class="u-align-center u-clearfix u-container-align-center u-palette-2-light-3 u-section-2" id="carousel_fdac">
+
+
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-expanded-width u-list u-list-1">
+          <div class="u-repeater u-repeater-1">
+            <div class="u-align-center u-container-style u-hover-feature u-list-item u-radius-32 u-repeater-item u-shape-round u-white u-list-item-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
+              <div class="u-container-layout u-similar-container u-valign-top u-container-layout-1">
+                <div class="u-align-center u-border-2 u-border-palette-2-light-1 u-container-style u-expanded-width u-group u-palette-2-light-2 u-shape-round u-top-left-radius-32 u-top-right-radius-32 u-group-1">
+                  <div class="u-container-layout u-valign-top u-container-layout-2"><span class="u-file-icon u-icon u-text-white u-icon-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><img src="{% static 'images/4470934-db8b9ee8.png' %}" alt=""></span>
+                    <h5 class="u-text u-text-white u-text-1">Posts</h5>
+                  </div>
+                </div>
+                        {% for post in user_posts %}
+                            <a href="{% url 'post_details' post.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1">{{ post.title}}</a>
+                        {% empty %}
+                            <li>No post found.</li>
+                        {% endfor %}
+              </div>
+            </div>
+            <div class="u-align-center u-container-style u-hover-feature u-list-item u-radius-32 u-repeater-item u-shape-round u-white u-list-item-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
+              <div class="u-container-layout u-similar-container u-valign-top u-container-layout-3">
+                <div class="u-align-center u-border-2 u-border-palette-2-light-1 u-container-style u-expanded-width u-group u-palette-2-light-2 u-shape-round u-top-left-radius-32 u-top-right-radius-32 u-group-2">
+                  <div class="u-container-layout u-valign-top u-container-layout-4"><span class="u-file-icon u-icon u-text-white u-icon-2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><img src="{% static 'images/9844732-2c1cde68.png' %}" alt=""></span>
+                    <h5 class="u-text u-text-default u-text-white u-text-2">Notes</h5>
+                  </div>
+                </div>
+                {% for note in user_notes %}
+                <a href="{% url 'note_details' note.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">{{ note.title }}</a>
+                 {% empty %}
+                <li>No notes found.</li>
+                {% endfor %}
+
+              </div>
+            </div>
+            <div class="u-align-center u-container-style u-hover-feature u-list-item u-radius-32 u-repeater-item u-shape-round u-white u-list-item-3" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
+              <div class="u-container-layout u-similar-container u-valign-top u-container-layout-5">
+                <div class="u-align-center u-border-2 u-border-palette-2-light-1 u-container-style u-expanded-width u-group u-palette-2-light-2 u-shape-round u-top-left-radius-32 u-top-right-radius-32 u-group-3">
+                  <div class="u-container-layout u-valign-top u-container-layout-6"><span class="u-file-icon u-icon u-text-white u-icon-3" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><img src="{% static 'images/2436805-fb04ac61.png' %}" alt=""></span>
+                    <h5 class="u-text u-text-default u-text-white u-text-3">Courses</h5>
+                  </div>
+                </div>
+                <a href="{% url 'list_courses' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">ALL COURSES</a>
+              </div>
+            </div>
+            <div class="u-align-center u-container-style u-hover-feature u-list-item u-radius-32 u-repeater-item u-shape-round u-white u-list-item-4" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
+              <div class="u-container-layout u-similar-container u-valign-top u-container-layout-7">
+                <div class="u-align-center u-border-2 u-border-palette-2-light-1 u-container-style u-expanded-width u-group u-palette-2-light-2 u-shape-round u-top-left-radius-32 u-top-right-radius-32 u-group-4">
+                  <div class="u-container-layout u-valign-top u-container-layout-8"><span class="u-file-icon u-icon u-text-white u-icon-4" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><img src="{% static 'images/4383086-6963609f.png' %}" alt=""></span>
+                    <h5 class="u-text u-text-default u-text-white u-text-4">Treatments</h5>
+                  </div>
+                </div>
+
+                <a href="{% url 'list_treatments' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">ALL TREATMENTS</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+{#    <h1>This is my profile page </h1>#}
+{#    <ul>#}
+{#                    {% if not user.image %}#}
+{#                    <img class="game-img" src="{% static 'images/logo.png' %}" alt='user-image'/>#}
+{#                    {% else %}#}
+{#                    <img class="game-img" src="..{{ user.image.url }}" alt='user-image'/>#}
+{#                    {% endif %}#}
+{##}
+{#                    {% if user.first_name and user.last_name %}#}
+{#                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>#}
+{#                    {% endif %}#}
+{##}
+{#                    <p class="text">Username: {{ user.username }}</p>#}
+{##}
+{#                    <p class="text">Email: {{ user.email }}</p>#}
+{##}
+{#                    {% if user.is_staff or user.is_superuser %}#}
+{#                    <h3 class="text">Team member</h3>#}
+{#                    {% endif %}#}
+
+{##}
+{#                    <p>Joined: {{ user.date_joined }}</p>#}
+{#    </ul>#}
+{# <ul>#}
+{#      <h2>My Post</h2>#}
+{#    {% for post in user_posts %}#}
+{#      <li>{{ post.title }} - {{ post.body }}   <a href="{% url 'post_details' post.pk %}">View</a></li>#}
+{#    {% empty %}#}
+{#      <li>No post found.</li>#}
+{#    {% endfor %}#}
+{##}
+{#  </ul>#}
+{#  <ul>#}
+{#      <h2>My Notes</h2>#}
+{#    {% for note in user_notes %}#}
+{#      <li>{{ note.title }} - {{ note.body }}  <a href="{% url 'note_details' note.pk %}">View</a> </li>#}
+{#    {% empty %}#}
+{#      <li>No notes found.</li>#}
+{#    {% endfor %}#}
+{##}
+{#  </ul>#}
+{#      <ul>#}
+{#      <h2>My Courses</h2>#}
+{#    {% for course in courses %}#}
+{#      <li>{{ course.title }} - {{ course.body }}  <a href="{% url 'details_course' course.pk %}">View</a> </li>#}
+{#    {% empty %}#}
+{#      <li>No courses found.</li>#}
+{#    {% endfor %}#}
+{##}
+{#  </ul>#}
+
+{% endblock %}

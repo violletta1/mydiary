@@ -1,0 +1,15 @@
+<!-- edit_post.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+
+        <form action="{% url 'edit_course' pk=course.pk %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button class="edit-btn" type="submit">Edit Course</button>
+  <a href="{% url 'details_course' course.pk %}" class="btn btn-secondary">Cancel</a>
+
+        </form>
+
+{% endblock %}
