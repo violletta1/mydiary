@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView
 
 from Beauty.common.forms import CommentForm
 from Beauty.common.models import Like
@@ -14,6 +15,11 @@ def index(request):
 
 def about(request):
     return render(request, template_name='common/about.html')
+
+
+
+class NoAccessView(TemplateView):
+    template_name = 'no_access.html'
 
 @login_required
 def like_functionality(request, course_id):

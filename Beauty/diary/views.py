@@ -52,7 +52,7 @@ def post_details(request,pk):
 
 
 @login_required
-@user_passes_test(is_practitioner_group_user)
+# @user_passes_test(is_practitioner_group_user)
 def delete_post(request, pk):
     post = Post.objects.filter(pk=pk).get()
     form = PostDeleteForm(request.POST or None, instance=post)
@@ -66,7 +66,7 @@ def delete_post(request, pk):
 
 
 @login_required
-@user_passes_test(is_practitioner_group_user)
+# @user_passes_test(is_allowed_group_user)
 def post_edit(request, pk):
     post = Post.objects.get(pk=pk)
     form = PostEditForm(instance=post)

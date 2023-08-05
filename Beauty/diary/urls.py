@@ -15,7 +15,7 @@ urlpatterns = [
     path('create_post/', views.create_post, name='post_create'),
     path('post_search/', views.post_search, name='post_search'),
     path('post_list/', views.post_list, name='post_list'),
-    path('post_details/<int:pk>', include([
+    path('post_details/<int:pk>/', include([
         path('', views.post_details, name='post_details'),
         path('edit/', views.post_edit, name='post_edit'),
         path('delete/', views.delete_post, name='delete_post')])),

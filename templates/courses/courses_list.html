@@ -35,9 +35,14 @@
               {% endif %}
             <div class="card-body">
               <p class="card-text">{{ course.title}}</p>
+            {% if course.user != request.user %}
+              <p class="card-text">Created by {{ course.user }}</p>
+            {% else %}
+            <p class="card-text">Created by me</p>
+            {% endif %}
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    {% if user.is_authenticated and is_practitioner %}
+                    {% if user.is_authenticated and is_practitioner  and course.user == request.user %}
                           <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'edit_course' pk=course.pk %}">Edit</a>
                     {% endif %}
                           <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'details_course' pk=course.pk %}">View</a>

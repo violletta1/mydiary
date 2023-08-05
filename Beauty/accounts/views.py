@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth import views as auth_views, login, get_user_model
 from django.contrib.auth.models import Group
+
+from Beauty.accounts.decorators import is_practitioner_group_user
 from Beauty.accounts.forms import RegisterUserForm, BeautyUserForm, BeautyUserEditForm, DeleteBeautyUserForm
 from Beauty.accounts.models import BeautyUser
 from Beauty.courses.models import Course
@@ -66,12 +68,13 @@ class ProfileDetailsView(views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.object  # Get the current user from the view's context
-
+        is_practitioner = is_practitioner_group_user(user)
         user_notes = Note.objects.filter(user=user).order_by('-created_at')
         courses = Course.objects.all().order_by('-created_at')
         treatments = Treatment.objects.filter(user=user).order_by('-created_at')
         user_posts = Post.objects.filter(user=user).order_by('-created_at')
 
+        context['is_practitioner'] = is_practitioner
         context['user_notes'] = user_notes  # Add the user_notes to the context
         context['user_posts'] = user_posts
         context['courses'] = courses  # Add the user_notes to the context

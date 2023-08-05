@@ -11,3 +11,4 @@ class TreatmentEditForm(forms.ModelForm):
     class Meta:
         model = Treatment
         fields = '__all__'
+        exclude = ['user']

@@ -72,6 +72,7 @@
 
   </div>
 </section>
+
     <section class="u-align-center u-clearfix u-container-align-center u-palette-2-light-3 u-section-2" id="carousel_fdac">
 
 
@@ -85,11 +86,13 @@
                     <h5 class="u-text u-text-white u-text-1">Posts</h5>
                   </div>
                 </div>
+              {% if user_posts %}
                         {% for post in user_posts %}
                             <a href="{% url 'post_details' post.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1">{{ post.title}}</a>
-                        {% empty %}
-                            <li>No post found.</li>
                         {% endfor %}
+              {% else%}
+                    <a href="#" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No post yet</a>
+              {% endif %}
               </div>
             </div>
             <div class="u-align-center u-container-style u-hover-feature u-list-item u-radius-32 u-repeater-item u-shape-round u-white u-list-item-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
@@ -99,11 +102,13 @@
                     <h5 class="u-text u-text-default u-text-white u-text-2">Notes</h5>
                   </div>
                 </div>
+              {% if user_notes %}
                 {% for note in user_notes %}
                 <a href="{% url 'note_details' note.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">{{ note.title }}</a>
-                 {% empty %}
-                <li>No notes found.</li>
                 {% endfor %}
+              {% else %}
+               <a href="{% url 'post_create' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No notes yet</a>
+              {% endif %}
 
               </div>
             </div>
@@ -124,8 +129,18 @@
                     <h5 class="u-text u-text-default u-text-white u-text-4">Treatments</h5>
                   </div>
                 </div>
+              {% if user.is_authenticated and is_practitioner %}
+                  {% if treatments %}
+                {% for treatment in treatments %}
+                <a href="{% url 'treatment_details' treatment.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">{{ treatment.title }}</a>
+                {% endfor %}
+              {% else %}
+               <a href="{% url 'create_treatment' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No treatments yet</a>
+              {% endif %}
+              {% else %}
 
-                <a href="{% url 'list_treatments' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">ALL TREATMENTS</a>
+               <a href="{% url 'list_treatments' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">All treatments</a>
+              {% endif %}
 
               </div>
             </div>

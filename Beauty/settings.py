@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-sc8=-)bdx&@0mu3**90e*5l#91(y94@m(81ter@2bxk2=@@gwe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,5 +140,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.BeautyUser'
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
-LOGIN_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('no_access')
 LOGOUT_REDIRECT_URL = reverse_lazy('index')

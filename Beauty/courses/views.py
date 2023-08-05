@@ -16,12 +16,11 @@ from Beauty.courses.forms import CourseForm, CourseDeleteForm, CourseEditForm
 
 
 
-# @user_passes_test(is_allowed_group_user)
 @login_required()
 def list_courses(request):
     is_practitioner = is_practitioner_group_user(request.user)
-    courses = Course.objects.all()
-    context = {'courses':courses, 'is_practitioner':is_practitioner}
+    courses = Course.objects.all().order_by('-created_at')
+    context = {'courses':courses,'is_practitioner':is_practitioner}
     return render(request, template_name='courses/courses_list.html', context=context)
 
 def course_search(request):
@@ -38,7 +37,7 @@ def course_search(request):
 @user_passes_test(is_practitioner_group_user)
 @login_required()
 def create_course(request):
-    is_practitioner = is_practitioner_group_user(request.user)
+    # is_practitioner = is_practitioner_group_user(request.user)
     if request.method == 'POST':
         form = CourseForm(request.POST)
         if form.is_valid():
@@ -48,7 +47,7 @@ def create_course(request):
             return redirect('list_courses')
     else:
         form = CourseForm()
-    contex = {'form':form, 'is_practitioner':is_practitioner}
+    contex = {'form':form,}
     return render(request, 'courses/course_create.html', contex)
 
 
@@ -58,8 +57,12 @@ def details_course(request,pk):
     course = Course.objects.get(pk=pk)
     comment_form = CommentForm()
     is_practitioner = is_practitioner_group_user(request.user)
+    user_who_created_it = course.user
+    user = request.user
     context = {
+        'current_user': user,
         'course': course,
+        'user_who_created_it': user_who_created_it,
         'is_practitioner': is_practitioner,
         "likes": course.like_set.count(),
         "comments": course.comment_set.all(),
@@ -74,6 +77,9 @@ def edit_course(request,pk):
     course = Course.objects.get(pk=pk)
     form = CourseEditForm(instance=course)
 
+    if request.user != course.user:
+        return redirect('no_access')
+
     if request.method == "POST":
         form = CourseEditForm(request.POST, instance=course)
         if form.is_valid():
@@ -83,6 +89,7 @@ def edit_course(request,pk):
     context = {
         "course": course,
         "form": form,
+
     }
 
     return render(request, 'courses/edit_course.html', context)
@@ -92,6 +99,8 @@ def edit_course(request,pk):
 def delete_course(request,pk):
     course = Course.objects.filter(pk=pk).get()
     form = CourseDeleteForm(request.POST or None, instance=course)
+    if request.user != course.user:
+        return redirect('no_access')
     if form.is_valid():
         form.save()
         return redirect('list_courses')

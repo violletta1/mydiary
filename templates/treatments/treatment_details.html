@@ -57,10 +57,12 @@
                   <p class="u-text u-text-default u-text-3">{{ treatment.created_at}}</p>
                   <a href="{% url 'list_treatments' %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-3 u-palette-2-light-2 u-radius-6 u-btn-2">Back to treatments</a>
 
-                        {% if user.is_authenticated and is_practitioner %}
+                        {% if user.is_authenticated %}
+                            {%if user_who_created_it == current_user%}
                             <a href="{% url 'edit_treatment' pk=treatment.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-4-dark-1 u-palette-2-light-3 u-radius-6 u-btn-3">Edit</a>
                             <a href="{% url 'delete_treatment' pk=treatment.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-6 u-btn-4">Delete</a>
                         {% endif %}
+                {% endif %}
                 </div>
 
               </div>

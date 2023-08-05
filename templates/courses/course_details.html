@@ -61,7 +61,7 @@
                   <p class="u-text u-text-default u-text-3">{{ course.created_at}}</p>
                   <a href="{% url 'list_courses' %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-3 u-palette-2-light-2 u-radius-6 u-btn-2">Back to courses</a>
 
-                        {% if user.is_authenticated and is_practitioner %}
+                        {% if user.is_authenticated and is_practitioner and user_who_created_it == current_user%}
                             <a href="{% url 'edit_course' pk=course.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-4-dark-1 u-palette-2-light-3 u-radius-6 u-btn-3">Edit</a>
                             <a href="{% url 'delete_course' pk=course.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-6 u-btn-4">Delete</a>
                         {% endif %}

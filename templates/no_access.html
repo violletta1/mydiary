@@ -1,0 +1,52 @@
+<!-- permission_denied.html -->
+{% extends 'base.html' %}
+{% block title %}
+  Permission Denied
+{% endblock %}
+{% block content %}
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .permission-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background-color: #f9e2e4; /* Pink background */
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .permission-header {
+      text-align: center;
+      font-size: 24px;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    .permission-button {
+      background-color: #ff4d78; /* Pink button */
+      color: #ffffff;
+      font-size: 16px;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .permission-button:hover {
+      background-color: #ff3c6c; /* Slightly darker pink on hover */
+    }
+  </style>
+
+  <div class="permission-container">
+    <div class="permission-header">Permission Denied</div>
+    <p>Sorry, you don't have permission to access this page.</p>
+    <a href="{% url 'index' %}">
+      <button class="permission-button">Back</button>
+    </a>
+  </div>
+{% endblock %}
