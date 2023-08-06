@@ -140,5 +140,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.BeautyUser'
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
-LOGIN_URL = reverse_lazy('no_access')
+LOGIN_URL = reverse_lazy('login_user')
 LOGOUT_REDIRECT_URL = reverse_lazy('index')

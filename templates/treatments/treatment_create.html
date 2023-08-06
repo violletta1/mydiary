@@ -4,10 +4,18 @@
     CREATE Treatment
 {% endblock %}
 {% block content %}
+         <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+  <style>
+          h1 {
+  font-family: 'Tangerine', serif;
+  font-size: 100px;
+  text-shadow: 4px 4px 4px #aaa;
+}    </style>
 <h1>Create a New Treatment</h1>
 <form method="post">
   {% csrf_token %}
-  {{ form }}
+  {{ form.as_p }}
   <button type="submit">Submit</button>
 </form>
 {% endblock %}

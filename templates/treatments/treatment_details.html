@@ -38,8 +38,8 @@
               <div class="u-container-style u-expand-resize u-layout-cell u-left-cell u-size-28 u-layout-cell-1">
                 <div class="u-container-layout">
                   <div class="u-align-left u-custom-color-1 u-radius-50 u-shape u-shape-round u-shape-1"></div>
-                {% if treatment.image %}
-                        <img class="u-image u-image-circle u-preserve-proportions u-image-1" src="{{ treatment.image }}" alt="" data-image-width="225" data-image-height="225">
+                {% if treatment.photo_treatment %}
+                        <img class="u-image u-image-circle u-preserve-proportions u-image-1" src="{{ treatment.photo_treatment }}" alt="" data-image-width="225" data-image-height="225">
               {% else %}
                     <img class="u-image u-image-circle u-preserve-proportions u-image-1" src="{% static 'images/logo.png' %}" alt="" data-image-width="225" data-image-height="225">
               {% endif %}
@@ -50,7 +50,7 @@
                   <h2 class="u-align-center u-subtitle u-text u-text-default u-text-1">{{ treatment.title }}</h2>
                   <div class="u-container-style u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-1">
                     <div class="u-container-layout u-container-layout-3">
-                      <p class="u-large-text u-text u-text-default u-text-variant u-text-2">{{ treatment.body}} {{ user_who_created_it}}</p>
+                      <p class="u-large-text u-text u-text-default u-text-variant u-text-2">{{ treatment.body}}</p>
 
                     </div>
                   </div>
@@ -196,6 +196,12 @@
                             <span class="comment-timestamp">{{ comment.date_time_of_publication }}</span>
                         </div>
 
+                     {% if comment.user == request.user %}
+                <form action="{% url 'comment_delete' comment_id=comment.pk %}" method="post" class="delete-comment-form">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-comment-btn" style="background-color: deeppink;" >Delete</button>
+                </form>
+            {% endif %}
                     </div>
                     {% endfor %}
                 </div>

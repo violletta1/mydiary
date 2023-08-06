@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 
 from Beauty.common.forms import CommentForm
-from Beauty.common.models import Like
+from Beauty.common.models import Like, Comment
 from Beauty.courses.models import Course
 from Beauty.diary.models import Post
 from Beauty.treatments.models import Treatment
@@ -83,3 +83,14 @@ def comment_functionality(request, model, model_id):
 
     # Handle the GET request or invalid form submission
     return redirect(request.META['HTTP_REFERER'])
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    # Check if the user is the owner of the comment or if they have the necessary permission to delete it
+    if request.user == comment.user:
+        comment.delete()
+
+    # Redirect back to the previous page
+    return redirect(f"{request.META['HTTP_REFERER']}#{comment_id}")

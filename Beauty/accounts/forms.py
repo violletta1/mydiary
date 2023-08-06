@@ -50,7 +50,7 @@ class BeautyUserEditForm(forms.ModelForm):
 
     class Meta:
         model = UserModel
-        fields = ['first_name','last_name','address','profile_picture','bio','gender','phone']
+        fields = ['username','first_name','last_name','address','profile_picture','bio','gender','phone']
 
 
 class DeleteAppUserForm(AuthenticationForm):

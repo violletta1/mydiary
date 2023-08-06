@@ -4,21 +4,35 @@
      NOTES
 {% endblock %}
 {% block content %}
-
- <section class="py-5 text-center container">
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+  <style>
+        /* Add the style to set the background color to light pink */
+        .py-1 {
+            background-image: url('/static/images/notes.jpg');
+            background-size: cover; /* This will make the image cover the entire section */
+            background-position: center;
+        }
+        h1 {
+  font-family: 'Tangerine', serif;
+  font-size: 90px;
+  text-shadow: 4px 4px 4px #aaa;
+}
+    </style>
+ <section class="py-1 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">This is my Notes page list</h1>
+        <h1>All of my notes at one place.</h1>
           {% if user_notes %}
-        <p class="lead text-body-secondary">All of my post at one place.Currently i have {{ user_notes.count }} notes</p>
+        <p class="lead text-body-secondary">Currently i have {{ user_notes.count }} notes</p>
           {% else %}
-          <p class="lead text-body-secondary">All of my post at one place.Currently i have none notes</p>
+          <p class="lead text-body-secondary">Currently i have 0 notes</p>
           {% endif %}
         <p>
-          <a href="{% url 'note_create' %}" class="btn btn-primary my-2">Create note</a>
+          <a href="{% url 'note_create' %}" class="btn btn-light my-2">Create note</a>
           <form action="{% url 'notes_search' %}" method="GET" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></form>
+                <button class="btn btn-light my-2" type="submit">Search</button></form>
 {#          <a href="#" class="btn btn-secondary my-2">Secondary action</a>#}
         </p>
       </div>

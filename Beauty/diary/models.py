@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from Beauty.courses.models import Course
+from Beauty.treatments.models import Treatment
 
 UserModel = get_user_model()
 
@@ -11,6 +12,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True)
 
 

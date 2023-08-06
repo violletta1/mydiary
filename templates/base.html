@@ -36,7 +36,7 @@
    {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" alt="Logo" width="100" height="90" class="d-inline-block align-text-top"> </a>
+    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt="Logo" width="100" height="90" class="d-inline-block align-text-top"> </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -54,12 +54,10 @@
           <li class="nav-item">
           <a class="btn btn-light" href="{% url 'list_treatments' %}">Treatments</a>
         </li>
-
       </ul>
     </div>
       <div>
           <p>
-{#                        <a href="{% url 'register' %}" class="btn btn-primary my-2">Register</a>#}
                       <a href="{% url 'profile_details' user.pk %}" class="btn btn-light">MyProfile</a>
                         <a href="{% url 'logout_user' %}" class="btn btn-light">Logout</a>
           </p>
@@ -69,14 +67,14 @@
    {% else %}
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> </a>
+    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Posts</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'post_list' %}">Posts</a>
         </li>
 
       </ul>
@@ -121,7 +119,7 @@
                   <div class="u-container-layout u-valign-top u-container-layout-2">
                     <h2 class="u-custom-font u-text u-text-1"> Our Mission</h2>
                     <p class="u-text u-text-2">All beauty practitioners at one place  </p>
-                    <a href="#" class="u-black u-btn u-button-style u-hover-grey-80 u-btn-2">learn more</a>
+                    <a href="{% url 'about' %}" class="u-black u-btn u-button-style u-hover-grey-80 u-btn-2">learn more</a>
 
                   </div>
                 </div>
@@ -139,7 +137,7 @@
     <div class="image-text">
       <h1 class="u-text u-text-default u-title u-text-1">Courses</h1>
       <p class="u-large-text u-text u-text-default u-text-variant u-text-2">All courses in one place</p>
-      <a href="#" class="u-btn u-button-style u-palette-2-base u-btn-1">Read More</a>
+      <a href="{% url 'list_courses' %}" class="u-btn u-button-style u-palette-2-base u-btn-1">Read More</a>
     </div>
   </div>
 </section>
@@ -148,7 +146,7 @@
     <div class="image-text">
       <h1 class="u-text u-text-default u-title u-text-1">Treatments</h1>
       <p class="u-large-text u-text u-text-default u-text-variant u-text-2">All treatments in one place</p>
-      <a href="#" class="u-btn u-button-style u-palette-2-base u-btn-1">Read More</a>
+      <a href="{% url 'list_treatments' %}" class="u-btn u-button-style u-palette-2-base u-btn-1">Read More</a>
     </div>
   </div>
 </section>
@@ -185,27 +183,16 @@
   <div class="u-clearfix u-sheet u-sheet-1">
     <p class="u-medium-text u-text u-text-variant u-text-grey-60">My courses and treatments at one place</p>
   </div>
-</footer>
-
-<section class="u-backlink u-clearfix" style="background-color: lavenderblush;">
-  <a class="u-link" href="#" target="_blank">
+      <section class="u-backlink u-clearfix" style="background-color: lavenderblush;">
+  <a class="u-link" href="{% url 'post_list' %}" target="_blank">
     <span>Posts</span>
   </a>
-  <a class="u-link" href="#" target="_blank">
+  <a class="u-link" href="{% url 'about' %}" target="_blank">
     <span>About</span>
   </a>.
 </section>
-{#        <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-bcbf"><div class="u-clearfix u-sheet u-sheet-1">#}
-{#        <p class="u-small-text u-text u-text-variant u-text-1">My courses and treatments at one place</p>#}
-{#      </div></footer>#}
-{#    <section class="u-backlink u-clearfix u-grey-80">#}
-{#      <a class="u-link" href="{% url 'post_list' %}" target="_blank">#}
-{#        <span>Posts</span>#}
-{#      </a>#}
-{#      <a class="u-link" href="{% url 'about' %}" target="_blank">#}
-{#        <span>About</span>#}
-{#      </a>.#}
-{#    </section>#}
+</footer>
+
 
   </body>
 </html>

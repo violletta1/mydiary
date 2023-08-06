@@ -7,21 +7,49 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title','body','course']
-        exclude = ['created_at']
+        fields = '__all__'
+        exclude = ['user']
 
+class PostClientForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'
+        exclude = ['user','treatment','course']
+class PostPractitionerForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'
+        exclude = ['user',]
 
 class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title','body']
-        exclude = ['created_at','updated_at']
+        fields = '__all__'
+        exclude = ['user']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].disabled = True
 
+class PostEditPractitionerForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'
+        exclude = ['user']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].disabled = True
+
+class PostEditClientForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'
+        exclude = ['user','treatment','course']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].disabled = True
 class PostDeleteForm(forms.ModelForm):
     class Meta:
         model = Post

@@ -1,12 +1,92 @@
+
+
+{% extends 'diary/notes/notes_list.html' %}
+{% load static %}
+{% block title %}Notes LIST{% endblock %}
+{% block content %}
+<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+
+
+  <style>
+              h1 {
+  font-family: 'Tangerine', serif;
+  font-size: 100px;
+  text-shadow: 4px 4px 4px #aaa;
+}
+        /* Add the style to set the background color to light pink */
+        .py-1 {
+            background-image: url('/static/images/notes.jpg');
+            background-size: cover; /* This will make the image cover the entire section */
+            background-position: center;
+        }
+        .btn-back {
+            background-color: pink;
+            border-color: pink;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: deeppink;
+            border-color: deeppink;
+        }
+                .no-results {
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+ <section class="py-1 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1>All of my notes at one place.</h1>
+          {% if user_notes %}
+        <p class="lead text-body-secondary">Currently i have {{ user_notes.count }} notes</p>
+          {% else %}
+          <p class="lead text-body-secondary">Currently i have 0 notes</p>
+          {% endif %}
+        <p>
+          <a href="{% url 'note_create' %}" class="btn btn-light my-2">Create note</a>
+          <form action="{% url 'notes_search' %}" method="GET" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                <button class="btn btn-light my-2" type="submit">Search</button></form>
+        </p>
+      </div>
+    </div>
+  </section>
+
+
 {% if results %}
-  <h2>Search Note Results</h2>
-  <ul>
-    {% for note in results %}
-      <li>{{ note.title }}</li>
-        <a href="{% url 'delete_note' pk=note.pk %}">Delete</a>
-      <a href="{% url 'note_edit' pk=note.pk %}">Edit</a>
+      <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for note in results %}
+        <div class="col">
+          <div class="card shadow-sm">
+              {% if note.image %}
+                        <img class="note-img" src="{{ note.image }}" alt="note image" style="width: 400px; height: 300px;">
+              {% else %}
+              <img class="note-img" src="{% static 'images/logo.png' %}" alt="note image" style="width: 400px; height: 300px;">
+              {% endif %}
+             <div class="card-body">
+              <p class="card-text">{{ note.title}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                          <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'note_edit' pk=note.pk %}">Edit</a>
+                          <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'note_details' pk=note.pk %}">View</a>
+                </div>
+                <small class="text-body-secondary">Status: {{ note.created_at}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
     {% endfor %}
-  </ul>
-{% else %}
-  <p>No results found.</p>
+</div>
+    </div>
+  </div>
+       <p class="no-results">Back to all notes. <a href="{% url 'notes_list' user.pk %}" class="btn btn-back">Back</a></p>
+    {% else %}
+    <p class="no-results">No results found. <a href="{% url 'notes_list' user.pk %}" class="btn btn-back">Back</a></p>
 {% endif %}
+
+{% endblock %}

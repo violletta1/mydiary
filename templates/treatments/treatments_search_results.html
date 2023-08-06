@@ -1,12 +1,97 @@
+
+{% extends 'diary/posts/post_list.html' %}
+{% load static %}
+{% block title %}Treatments Search{% endblock %}
+{% block content %}
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+
+
+  <style>
+            h1 {
+  font-family: 'Tangerine', serif;
+  font-size: 100px;
+  text-shadow: 4px 4px 4px #aaa;
+}
+        /* Add the style to set the background color to light pink */
+        .py-1 {
+            background-image: url('/static/images/treatments-back.jpg');
+            background-size: cover; /* This will make the image cover the entire section */
+            background-position: center;
+        }
+        .btn-back {
+            background-color: pink;
+            border-color: pink;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: deeppink;
+            border-color: deeppink;
+        }
+                .no-results {
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+ <section class="py-1 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1>All treatments at one place.</h1>
+        <p class="lead text-body-secondary">Currently {{ treatments.count }}treatments</p>
+          {% if user.is_authenticated and is_practitioner %}
+        <p>
+          <a href="{% url 'create_treatment' %}" class="btn btn-light my-2">Create Treatment</a>
+          {% endif %}
+          <form action="{% url 'treatment_search' %}" method="GET" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                <button class="btn btn-light my-2" type="submit">Search</button></form>
+{#          <a href="#" class="btn btn-secondary my-2">Secondary action</a>#}
+        </p>
+      </div>
+    </div>
+  </section>
+
 {% if results %}
-  <h2>Search course Results</h2>
-  <ul>
-    {% for course in results %}
-      <li>{{ course.title }}</li>
-        <a href="{% url 'delete_course' pk=course.pk %}">Delete</a>
-      <a href="{% url 'edit_course' pk=course.pk %}">Edit</a>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No results found.</p>
-{% endif %}
+      <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for treatment in treatments %}
+        <div class="col">
+          <div class="card shadow-sm">
+              {% if not treatment.image %}
+                    <img class="course-img" src="{% static 'images/logo.png' %}" alt="course image" style="width: 400px; height: 300px;">
+              {% else %}
+                    <img class="course-img" src="{{treatment.image}}" alt="course image" style="width: 400px; height: 300px;">
+              {% endif %}
+            <div class="card-body">
+              <p class="card-text">{{ treatment.title}}</p>
+            {% if treatment.user != current_user %}
+              <p class="card-text">Created by {{ treatment.user }}</p>
+            {% else %}
+            <p class="card-text">Created by me</p>
+            {% endif %}
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    {% if user.is_authenticated and is_practitioner and treatment.user == current_user %}
+                          <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'edit_treatment' pk=treatment.pk %}">Edit</a>
+                    {% endif %}
+                          <a class="btn btn-dark rounded-pill px-3" type="button" href="{% url 'treatment_details' pk=treatment.pk %}">View</a>
+{#                     <a href="{% url 'comment' treatment.title %}" class="button">Comment</a>#}
+
+                </div>
+                <small class="text-body-secondary">Status: {{ treatment.created_at}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endfor%}
+      </div>
+    </div>
+  </div>
+    <p class="no-results">Back to all treatments. <a href="{% url 'list_treatments' %}" class="btn btn-back">Back</a></p>
+    {% else %}
+    <p class="no-results">No results found. <a href="{% url 'list_treatments' %}" class="btn btn-back">Back</a></p>
+
+{% endif %}{% endblock %}

@@ -11,7 +11,7 @@ from ..accounts.decorators import is_practitioner_group_user
 from ..common.forms import CommentForm
 from django.shortcuts import get_object_or_404
 
-
+@login_required
 def treatment_search(request):
     query = request.GET.get('q')
     if query:
@@ -21,6 +21,8 @@ def treatment_search(request):
 
     return render(request, 'treatments/treatments_search_results.html', {'results': results})
 
+
+@login_required
 def list_treatments(request):
     is_practitioner = is_practitioner_group_user(request.user)
     current_user = request.user
@@ -54,6 +56,7 @@ class CreateTreatment(LoginRequiredMixin,views.CreateView):
         form.instance.user = self.request.user
         return form
 
+@login_required
 def details_treatment(request,pk):
     treatment = Treatment.objects.get(pk=pk)
     comment_form = CommentForm()

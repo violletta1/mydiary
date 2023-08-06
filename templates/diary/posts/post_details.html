@@ -40,7 +40,9 @@
                   <div class="u-align-left u-custom-color-1 u-radius-50 u-shape u-shape-round u-shape-1"></div>
                 {% if post.course.image %}
                         <img class="u-image u-image-circle u-preserve-proportions u-image-1" src="{{ post.course.image }}" alt="" data-image-width="225" data-image-height="225">
-              {% else %}
+              {% elif post.treatment.photo_treatment %}
+                     <img class="u-image u-image-circle u-preserve-proportions u-image-1" src="{{ post.treatment.photo_treatment }}" alt="" data-image-width="225" data-image-height="225">
+                {% else %}
                     <img class="u-image u-image-circle u-preserve-proportions u-image-1" src="{% static 'images/logo.png' %}" alt="" data-image-width="225" data-image-height="225">
               {% endif %}
                 </div>
@@ -51,15 +53,19 @@
                   <div class="u-container-style u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-1">
                     <div class="u-container-layout u-container-layout-3">
                       <p class="u-large-text u-text u-text-default u-text-variant u-text-2">{{ post.body}}</p>
+                    <p>
                          {% if post.course  %}
-                      <a href="{% url 'details_course' pk=post.course.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-1 u-palette-2-light-2 u-radius-22 u-btn-1">Learn more</a>
-                    {% endif %}
+                      <a href="{% url 'details_course' pk=post.course.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-1 u-palette-2-light-2 u-radius-22 u-btn-1">Course</a>
+                    {% endif %}</p>
+                    <p> {% if post.treatment  %}
+                      <a href="{% url 'treatment_details' pk=post.treatment.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-1 u-palette-2-light-2 u-radius-22 u-btn-1">Treatment</a>
+                    {% endif %}</p>
                     </div>
                   </div>
                   <p class="u-text u-text-default u-text-3">{{ post.created_at}}</p>
                   <a href="{% url 'post_list' %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-3 u-palette-2-light-2 u-radius-6 u-btn-2">Back to posts</a>
 
-                        {% if user.is_authenticated and is_practitioner %}
+                        {% if user.is_authenticated and user == post.user %}
                             <a href="{% url 'post_edit' pk=post.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-4-dark-1 u-palette-2-light-3 u-radius-6 u-btn-3">Edit</a>
                             <a href="{% url 'delete_post' pk=post.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-6 u-btn-4">Delete</a>
                         {% endif %}
@@ -195,7 +201,14 @@
                             {% endif %}
                             <p class="comment-text">{{ comment.comment_text }}</p>
                             <span class="comment-timestamp">{{ comment.date_time_of_publication }}</span>
+
                         </div>
+                     {% if comment.user == request.user %}
+                <form action="{% url 'comment_delete' comment_id=comment.pk %}" method="post" class="delete-comment-form">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-comment-btn" style="background-color: deeppink;">Delete</button>
+                </form>
+            {% endif %}
                     </div>
                     {% endfor %}
                 </div>

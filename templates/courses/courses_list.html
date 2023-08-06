@@ -2,19 +2,48 @@
 {% load static %}
 {% block title %}Course LIST{% endblock %}
 {% block content %}
+ <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+  <style>
+            h1 {
+  font-family: 'Tangerine', serif;
+  font-size: 100px;
+  text-shadow: 4px 4px 4px #aaa;
+}
+        /* Add the style to set the background color to light pink */
+        .py-1 {
+            background-image: url('/static/images/courses-back.jpg');
+            background-size: cover; /* This will make the image cover the entire section */
+            background-position: center;
+        }
+        .btn-back {
+            background-color: pink;
+            border-color: pink;
+            color: white;
+        }
 
- <section class="py-5 text-center container">
+        .btn-back:hover {
+            background-color: deeppink;
+            border-color: deeppink;
+        }
+                .no-results {
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+
+ <section class="py-1 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">This is a course page list</h1>
-        <p class="lead text-body-secondary">All courses at one place.Currently {{ courses.count }}courses</p>
+        <h1>All courses at one place</h1>
+        <p class="lead text-body-secondary">Currently {{ courses.count }}courses</p>
           {% if user.is_authenticated and is_practitioner %}
         <p>
-          <a href="{% url 'create_course' %}" class="btn btn-primary my-2">Create course</a>
+          <a href="{% url 'create_course' %}" class="btn btn-light my-2">Create course</a>
           {% endif %}
           <form action="{% url 'course_search' %}" method="GET" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></form>
+                <button class="btn btn-light my-2" type="submit">Search</button></form>
 {#          <a href="#" class="btn btn-secondary my-2">Secondary action</a>#}
         </p>
       </div>

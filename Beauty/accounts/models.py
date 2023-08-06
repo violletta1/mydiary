@@ -42,7 +42,7 @@ class BeautyUser(auth_models.AbstractUser):
         validators=(validators.MinLengthValidator(MIN_LENGTH),),
     )
     bio = models.TextField(
-        max_length=100,
+        max_length=400,
         null=True,
         blank=True,
     )

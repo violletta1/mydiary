@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
 from Beauty.diary.models import Post,Note
 from django.contrib.auth import get_user_model
-from .forms import PostForm, PostEditForm,PostDeleteForm,NotesForm,NoteEditForm,NoteDeleteForm
+from .forms import PostForm, PostEditForm, PostDeleteForm, NotesForm, NoteEditForm, NoteDeleteForm, \
+    PostPractitionerForm, PostClientForm, PostEditPractitionerForm, PostEditClientForm
 from django.contrib.auth import mixins as auth_mixins
 from django.views import generic as views
 from django.urls import reverse
@@ -14,18 +15,39 @@ UserModel = get_user_model()
 
 @login_required
 def create_post(request):
-    form = PostForm()
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-            return redirect('post_list')
-    context = {
-        'form':form
-    }
+    is_practitioner = is_practitioner_group_user(request.user)
+    is_client = is_client_group_user(request.user)
+    if is_practitioner:
+        form = PostPractitionerForm()
+        if request.method == 'POST':
+            form = PostPractitionerForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user = request.user
+                post.save()
+                return redirect('post_list')
+        context = {
+            'form':form
+        }
+    elif is_client:
+        form = PostClientForm()
+        if request.method == 'POST':
+            form = PostClientForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user = request.user
+                post.save()
+                return redirect('post_list')
+        context = {
+            'form': form
+        }
+    else:
+        form = PostClientForm()
+        context = {
+            'form': form
+        }
     return render(request, 'diary/posts/create_post.html', context=context)
+
 
 
 
@@ -38,13 +60,11 @@ def post_list(request):
 def post_details(request,pk):
     post = Post.objects.get(pk=pk)
     comment_form = CommentForm()
-    is_practitioner = is_practitioner_group_user(request.user)
     context = {
         'post': post,
         'comments': post.comment_set.all(),
         'comment_form': comment_form,
         'likes': post.like_set.count(),
-        'is_practitioner': is_practitioner,
     }
 
     return render(request, template_name='diary/posts/post_details.html', context=context)
@@ -56,6 +76,8 @@ def post_details(request,pk):
 def delete_post(request, pk):
     post = Post.objects.filter(pk=pk).get()
     form = PostDeleteForm(request.POST or None, instance=post)
+    if not request.user == post.user:
+        return redirect('no_access')
     if form.is_valid():
         form.save()
         return redirect('post_list')
@@ -66,13 +88,21 @@ def delete_post(request, pk):
 
 
 @login_required
-# @user_passes_test(is_allowed_group_user)
 def post_edit(request, pk):
     post = Post.objects.get(pk=pk)
-    form = PostEditForm(instance=post)
-
-    if request.method == "POST":
-        form = PostEditForm(request.POST, instance=post)
+    is_practitioner = is_practitioner_group_user(request.user)
+    is_client = is_client_group_user(request.user)
+    if is_practitioner:
+        form = PostEditPractitionerForm(instance=post)
+    else:
+        form = PostEditClientForm(instance=post)
+    if is_practitioner and request.method == "POST":
+        form = PostEditPractitionerForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_details', pk=pk)
+    elif is_client and request.method == 'POST':
+        form = PostEditClientForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
             return redirect('post_details', pk=pk)

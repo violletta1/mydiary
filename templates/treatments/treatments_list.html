@@ -2,19 +2,33 @@
 {% load static %}
 {% block title %}Treatments LIST{% endblock %}
 {% block content %}
-
- <section class="py-5 text-center container">
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+  <style>
+          h1 {
+  font-family: 'Tangerine', serif;
+  font-size: 100px;
+  text-shadow: 4px 4px 4px #aaa;
+}
+        /* Add the style to set the background color to light pink */
+        .py-1 {
+            background-image:  url('/static/images/treatments-back.jpg');
+            background-size: cover; /* This will make the image cover the entire section */
+            background-position: center;
+        }
+    </style>
+ <section class="py-1 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">This is a treatments page list</h1>
-        <p class="lead text-body-secondary">All treatments at one place.Currently {{ treatments.count }}treatments</p>
+        <h1>All treatments at one place.</h1>
+        <p class="lead text-body-secondary">Currently {{ treatments.count }}treatments</p>
           {% if user.is_authenticated and is_practitioner %}
         <p>
-          <a href="{% url 'create_treatment' %}" class="btn btn-primary my-2">Create Treatment</a>
+          <a href="{% url 'create_treatment' %}" class="btn btn-light my-2">Create Treatment</a>
           {% endif %}
           <form action="{% url 'treatment_search' %}" method="GET" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></form>
+                <button class="btn btn-light my-2" type="submit">Search</button></form>
 {#          <a href="#" class="btn btn-secondary my-2">Secondary action</a>#}
         </p>
       </div>
@@ -28,10 +42,10 @@
           {% for treatment in treatments %}
         <div class="col">
           <div class="card shadow-sm">
-              {% if not treatment.image %}
+              {% if not treatment.photo_treatment %}
                     <img class="course-img" src="{% static 'images/logo.png' %}" alt="course image" style="width: 400px; height: 300px;">
               {% else %}
-                    <img class="course-img" src="{{treatment.image}}" alt="course image" style="width: 400px; height: 300px;">
+                    <img class="course-img" src="{{treatment.photo_treatment}}" alt="course image" style="width: 400px; height: 300px;">
               {% endif %}
             <div class="card-body">
               <p class="card-text">{{ treatment.title}}</p>

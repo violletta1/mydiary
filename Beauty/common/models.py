@@ -26,7 +26,7 @@ class Comment(models.Model):
 
     user = models.ForeignKey(
         UserModel,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
     )
     #
     # class Meta:
@@ -40,7 +40,7 @@ class Like(models.Model):
 
     user = models.ForeignKey(
         UserModel,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
     )
 
     # CASCADE - delete 1 photo and delete all connected comments
