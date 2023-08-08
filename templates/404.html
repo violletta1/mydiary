@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load  static %}
+
+{% block content %}
+    <div class="not-found">
+        <h1>
+            Uh oh,<br> something broke.
+        </h1>
+
+        <h3>Error 404 - page not found.</h3>
+        <!-- Link to Home Page -->
+        <a href="{% url 'index' %}">
+            <button>Return to Beauty</button>
+        </a>
+    </div>
+    <!-- End 404 page -->
+
+{% endblock %}
