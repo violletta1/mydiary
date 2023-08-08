@@ -141,7 +141,7 @@
                 {% if user.is_authenticated %}
                   <a href="{% url 'list_courses' %}" class="u-black u-btn u-button-style u-btn-1">learn more</a>
                   {% else  %}
-                  <a href="{% url 'login' %}" class="u-black u-btn u-button-style u-btn-1">learn more</a>
+                  <a href="{% url 'login_user' %}" class="u-black u-btn u-button-style u-btn-1">learn more</a>
                   {% endif %}
               </div>
             </div>

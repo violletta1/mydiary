@@ -18,6 +18,8 @@ UserModel = get_user_model()
 
 
 
+
+
 class RegisterUserView(views.FormView):
     template_name = 'accounts/register-page.html'
     form_class = RegisterUserForm
@@ -34,16 +36,6 @@ class RegisterUserView(views.FormView):
 
     def form_invalid(self, form):
         return super().form_invalid(form)
-    #
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #
-    #     context['next'] = self.request.GET.get('next', '')
-    #
-    #     return context
-    #
-    # def get_success_url(self):
-    #     return self.request.POST.get('next', self.success_url)
 
 
 class LoginUserView(auth_views.LoginView):
