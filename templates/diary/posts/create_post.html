@@ -1,7 +1,29 @@
-<!-- create_post.html -->
+{#<!-- create_post.html -->#}
+{#{% extends 'base.html' %}#}
+{#{% block title %}#}
+{#    CREATE POST#}
+{#{% endblock %}#}
+{#{% block content %}#}
+{#         <link rel="stylesheet"#}
+{#          href="https://fonts.googleapis.com/css?family=Tangerine">#}
+{#  <style>#}
+{#          h1 {#}
+{#  font-family: 'Tangerine', serif;#}
+{#  font-size: 100px;#}
+{#  text-shadow: 4px 4px 4px #aaa;#}
+{#}    </style>#}
+{#<h1>Create a New Post</h1>#}
+{#<form method="post">#}
+{#  {% csrf_token %}#}
+{#  {{ form.as_p }}#}
+{#  <button type="submit">Submit</button>#}
+{#</form>#}
+{#{% endblock %}#}
+
+
 {% extends 'base.html' %}
 {% block title %}
-    CREATE POST
+    Create Post
 {% endblock %}
 {% block content %}
          <link rel="stylesheet"
@@ -11,11 +33,84 @@
   font-family: 'Tangerine', serif;
   font-size: 100px;
   text-shadow: 4px 4px 4px #aaa;
-}    </style>
-<h1>Create a New Post</h1>
-<form method="post">
+}
+
+    body {
+      background-color: snow;
+      font-family: Arial, sans-serif;
+    }
+
+    .create-post-container {
+      max-width: 600px;
+      margin: 150px auto;
+      background-color: lavenderblush;
+      padding: 40px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .create-post-header {
+      text-align: center;
+      font-size: 24px;
+      color: deeppink;
+      margin-bottom: 20px;
+    }
+
+    .create-post-form {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 16px;
+      color: #ffffff;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      padding: 10px;
+      border: 1px solid #f390a7; /* Pink border */
+      border-radius: 3px;
+      font-size: 16px;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff4d78; /* Brighter pink on focus */
+    }
+
+    .create-post-button {
+      background-color: hotpink; /* Pink button */
+      color: #ffffff;
+      font-size: 16px;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .create-post-button:hover {
+      background-color: deeppink; /* Slightly darker pink on hover */
+    }
+
+  </style>
+
+<body>
+  <div class="create-post-container">
+      <div class="create-post-header"><h1>Create a New Post</h1></div>
+
+        <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Submit</button>
+  <button class="create-post-button" type="submit">Create</button>
 </form>
+</div>
+</body>
 {% endblock %}

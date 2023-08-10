@@ -1,16 +1,112 @@
-<!-- edit_post.html -->
+{#<!-- edit_post.html -->#}
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{##}
+{#        <!-- Starts Edit Photo Form -->#}
+{#        <form action="{% url 'post_edit' pk=post.pk %}" method="post">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <!-- Edit Photo Button -->#}
+{#            <button class="edit-btn" type="submit">Edit Post</button>#}
+{#  <a href="{% url 'post_details' post.pk %}" class="btn btn-secondary">Cancel</a>#}
+{##}
+{#        </form>#}
+{#        <!-- End Edit Photo Form -->#}
+{##}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
+{% block title %}
+  Edit Post
+{% endblock %}
 {% block content %}
+          <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
 
-        <!-- Starts Edit Photo Form -->
-        <form action="{% url 'post_edit' pk=post.pk %}" method="post">
-            {% csrf_token %}
+    <style>
+        h1 {
+          font-family: 'Tangerine', serif;
+          font-size: 100px;
+          text-shadow: 4px 4px 4px #aaa;
+        }
+
+        body {
+          background-color: snow;
+          font-family: Arial, sans-serif;
+        }
+
+        .edit-post-container {
+          max-width: 600px;
+          margin: 150px auto;
+          background-color: lavenderblush;
+          padding: 40px;
+          border-radius: 5px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-post-header {
+          text-align: center;
+          font-size: 24px;
+          color: deeppink;
+          margin-bottom: 20px;
+        }
+
+        .edit-post-form {
+          display: flex;
+          flex-direction: column;
+          max-width: 300px;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-group label {
+          display: block;
+          font-size: 16px;
+          color: #ffffff;
+          margin-bottom: 5px;
+        }
+
+        .form-group input {
+          padding: 10px;
+          border: 1px solid #f390a7; /* Pink border */
+          border-radius: 3px;
+          font-size: 16px;
+        }
+
+        .form-group input:focus {
+          outline: none;
+          border-color: #ff4d78; /* Brighter pink on focus */
+        }
+
+        .edit-post-button {
+          background-color: hotpink; /* Pink button */
+          color: #ffffff;
+          font-size: 16px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        .edit-post-button:hover {
+          background-color: deeppink; /* Slightly darker pink on hover */
+        }
+
+    </style>
+
+<body>
+  <div class="edit-post-container">
+      <div class="edit-post-header"><h1>Edit Post</h1></div>
+
+        <form method="POST" action="{% url 'post_edit' pk=post.pk %}">
             {{ form.as_p }}
-            <!-- Edit Photo Button -->
-            <button class="edit-btn" type="submit">Edit Post</button>
-  <a href="{% url 'post_details' post.pk %}" class="btn btn-secondary">Cancel</a>
+             <button type="submit" class="edit-post-button">Edit Post</button>
 
+           {% csrf_token %}
         </form>
-        <!-- End Edit Photo Form -->
-
+  </div>
+</body>
 {% endblock %}

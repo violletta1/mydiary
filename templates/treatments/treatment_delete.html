@@ -1,17 +1,102 @@
 
 {% extends 'base.html' %}
+{% block title %}
+  Delete Treatment
+{% endblock %}
 {% block content %}
 
-    <title>Delete Treatment</title>
 
-    <h1>Delete Course</h1>
-    <p>Are you sure you want to delete this treatment?</p>
+          <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+
+    <style>
+        h1 {
+          font-family: 'Tangerine', serif;
+          font-size: 100px;
+          text-shadow: 4px 4px 4px #aaa;
+        }
+        h2 {
+          font-family: 'Tangerine', serif;
+          font-size: 60px;
+          text-shadow: 4px 4px 4px #aaa;
+        }
+
+        body {
+          background-color: snow;
+          font-family: Arial, sans-serif;
+        }
+
+        .delete-treatment-container {
+          max-width: 600px;
+          margin: 150px auto;
+          background-color: lavenderblush;
+          padding: 40px;
+          border-radius: 5px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .delete-treatment-header {
+          text-align: center;
+          font-size: 24px;
+          color: deeppink;
+          margin-bottom: 20px;
+        }
+
+        .delete-treatment-form {
+          display: flex;
+          flex-direction: column;
+          max-width: 300px;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-group label {
+          display: block;
+          font-size: 16px;
+          color: #ffffff;
+          margin-bottom: 5px;
+        }
+
+        .form-group input {
+          padding: 10px;
+          border: 1px solid #f390a7; /* Pink border */
+          border-radius: 3px;
+          font-size: 16px;
+        }
+
+        .form-group input:focus {
+          outline: none;
+          border-color: #ff4d78; /* Brighter pink on focus */
+        }
+
+        .delete-treatment-button{
+          background-color: hotpink; /* Pink button */
+          color: #ffffff;
+          font-size: 16px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        .delete-treatment-button:hover {
+          background-color: deeppink; /* Slightly darker pink on hover */
+        }
+
+    </style>
+
+    <div class="delete-treatment-container">
+      <div class="delete-treatment-header"><h1>Delete Treatment</h1></div>
+    <h2>Are you sure you want to delete this treatment?</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Delete</button>
-        <a href="{% url 'treatment_details' treatment.pk %}">Cancel</a>
+        <button class="delete-treatment-button" type="submit">Delete</button>
+        <a href="{% url 'treatment_details' treatment.pk %}" class="delete-treatment-button">Cancel</a>
     </form>
-
+    </div>
    <!-- End Delete Pet Section -->
 {% endblock %}

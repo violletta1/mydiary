@@ -1,10 +1,10 @@
 from django import forms
 from .models import Post,Note
-
+from ..courses.models import Course
+from ..treatments.models import Treatment
 
 
 class PostForm(forms.ModelForm):
-
     class Meta:
         model = Post
         fields = '__all__'
@@ -15,11 +15,13 @@ class PostClientForm(forms.ModelForm):
         model = Post
         fields = '__all__'
         exclude = ['user','treatment','course']
-class PostPractitionerForm(forms.ModelForm):
+
+class PostPractitionerForm(PostForm):
     class Meta:
         model = Post
         fields = '__all__'
-        exclude = ['user',]
+        exclude = ['user','course']
+
 
 class PostEditForm(forms.ModelForm):
     class Meta:
@@ -35,7 +37,7 @@ class PostEditPractitionerForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user','course']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

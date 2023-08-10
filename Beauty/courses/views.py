@@ -37,7 +37,6 @@ def course_search(request):
 @user_passes_test(is_practitioner_group_user)
 @login_required()
 def create_course(request):
-    # is_practitioner = is_practitioner_group_user(request.user)
     if request.method == 'POST':
         form = CourseForm(request.POST)
         if form.is_valid():
@@ -56,14 +55,14 @@ def create_course(request):
 def details_course(request,pk):
     course = Course.objects.get(pk=pk)
     comment_form = CommentForm()
-    is_practitioner = is_practitioner_group_user(request.user)
     user_who_created_it = course.user
-    user = request.user
+    current_user = request.user
+    is_admin = is_admin_group_user(request.user)
     context = {
-        'current_user': user,
+        'is_admin':is_admin,
+        'current_user': current_user,
         'course': course,
         'user_who_created_it': user_who_created_it,
-        'is_practitioner': is_practitioner,
         "likes": course.like_set.count(),
         "comments": course.comment_set.all(),
         "comment_form": comment_form,
@@ -76,9 +75,10 @@ def details_course(request,pk):
 def edit_course(request,pk):
     course = Course.objects.get(pk=pk)
     form = CourseEditForm(instance=course)
-
-    if request.user != course.user:
-        return redirect('no_access')
+    is_admin = is_admin_group_user(request.user)
+    if not is_admin:
+        if request.user != course.user:
+            return redirect('no_access')
 
     if request.method == "POST":
         form = CourseEditForm(request.POST, instance=course)
@@ -99,8 +99,10 @@ def edit_course(request,pk):
 def delete_course(request,pk):
     course = Course.objects.filter(pk=pk).get()
     form = CourseDeleteForm(request.POST or None, instance=course)
-    if request.user != course.user:
-        return redirect('no_access')
+    is_admin = is_admin_group_user(request.user)
+    if not is_admin:
+        if request.user != course.user:
+            return redirect('no_access')
     if form.is_valid():
         form.save()
         return redirect('list_courses')

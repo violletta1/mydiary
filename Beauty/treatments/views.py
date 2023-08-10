@@ -6,8 +6,8 @@ from django.utils.decorators import method_decorator
 from django.views import generic as views
 from django.urls import reverse, reverse_lazy
 from .models import Treatment
-from Beauty.treatments.forms import TreatmentAddForm, TreatmentEditForm
-from ..accounts.decorators import is_practitioner_group_user
+from Beauty.treatments.forms import TreatmentAddForm, TreatmentEditForm, TreatmentDeleteForm
+from ..accounts.decorators import is_practitioner_group_user, is_admin_group_user
 from ..common.forms import CommentForm
 from django.shortcuts import get_object_or_404
 
@@ -56,14 +56,18 @@ class CreateTreatment(LoginRequiredMixin,views.CreateView):
         form.instance.user = self.request.user
         return form
 
+
+
 @login_required
 def details_treatment(request,pk):
     treatment = Treatment.objects.get(pk=pk)
     comment_form = CommentForm()
     user_who_created_it = treatment.user
+    is_admin = is_admin_group_user(request.user)
     user = request.user
     context = {
         'current_user': user,
+        'is_admin':is_admin,
         'treatment':treatment,
         'comments':treatment.comment_set.all(),
         'comment_form':comment_form,
@@ -79,13 +83,13 @@ def details_treatment(request,pk):
 
 @login_required
 def edit_treatment(request,pk):
-
     treatment = get_object_or_404(Treatment, pk=pk)
     user_who_created_it = treatment.user
     form = TreatmentEditForm(instance=treatment)
-
-    if request.user != treatment.user:
-        return redirect('no_access')
+    is_admin = is_admin_group_user(request.user)
+    if not is_admin:
+        if request.user != treatment.user:
+            return redirect('no_access')
 
     if request.method == "POST":
         form = TreatmentEditForm(request.POST, instance=treatment)
@@ -103,7 +107,15 @@ def edit_treatment(request,pk):
 
 def delete_treatment(request,pk):
     treatment = Treatment.objects.filter(pk=pk).get()
-    if request.user != treatment.user:
-        return redirect('no_access')
-    treatment.delete()
-    return redirect('list_treatments')
+    form = TreatmentDeleteForm(request.POST or None, instance=treatment)
+    is_admin = is_admin_group_user(request.user)
+    if not is_admin:
+        if request.user != treatment.user:
+            return redirect('no_access')
+    if form.is_valid():
+        form.save()
+        return redirect('list_treatments')
+    context = {
+        'form': form, 'treatment': treatment
+    }
+    return render(request,'treatments/treatment_delete.html',context=context)

@@ -52,6 +52,10 @@ class BeautyUserEditForm(forms.ModelForm):
         model = UserModel
         fields = ['username','first_name','last_name','address','profile_picture','bio','gender','phone']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = ''
+
 
 class DeleteAppUserForm(AuthenticationForm):
     username = forms.CharField(disabled=True)

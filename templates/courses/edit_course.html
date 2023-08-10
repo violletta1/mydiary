@@ -1,15 +1,95 @@
 <!-- edit_post.html -->
 {% extends 'base.html' %}
+{% block title %}
+  Edit Course
+{% endblock %}
 {% block content %}
+          <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
+
+    <style>
+        h1 {
+          font-family: 'Tangerine', serif;
+          font-size: 100px;
+          text-shadow: 4px 4px 4px #aaa;
+        }
 
 
+        body {
+          background-color: snow;
+          font-family: Arial, sans-serif;
+        }
+
+        .edit-course-container {
+          max-width: 600px;
+          margin: 150px auto;
+          background-color: lavenderblush;
+          padding: 40px;
+          border-radius: 5px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-course-header {
+          text-align: center;
+          font-size: 24px;
+          color: deeppink;
+          margin-bottom: 20px;
+        }
+
+        .edit-course-form {
+          display: flex;
+          flex-direction: column;
+          max-width: 300px;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-group label {
+          display: block;
+          font-size: 16px;
+          color: #ffffff;
+          margin-bottom: 5px;
+        }
+
+        .form-group input {
+          padding: 10px;
+          border: 1px solid #f390a7; /* Pink border */
+          border-radius: 3px;
+          font-size: 16px;
+        }
+
+        .form-group input:focus {
+          outline: none;
+          border-color: #ff4d78; /* Brighter pink on focus */
+        }
+
+        .edit-course-button {
+          background-color: hotpink; /* Pink button */
+          color: #ffffff;
+          font-size: 16px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        .edit-course-button:hover {
+          background-color: deeppink; /* Slightly darker pink on hover */
+        }
+
+    </style>
+<div class="edit-course-container">
+      <div class="edit-course-header"><h1>Edit Note</h1></div>
         <form action="{% url 'edit_course' pk=course.pk %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
 
-            <button class="edit-btn" type="submit">Edit Course</button>
-  <a href="{% url 'details_course' course.pk %}" class="btn btn-secondary">Cancel</a>
+            <button class="edit-course-button" type="submit">Edit</button>
+  <a href="{% url 'details_course' course.pk %}" class="edit-course-button">Cancel</a>
 
         </form>
-
+</div>
 {% endblock %}

@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth import views as auth_views, login, get_user_model
 from django.contrib.auth.models import Group
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 
 from Beauty.accounts.decorators import is_practitioner_group_user
 from Beauty.accounts.forms import RegisterUserForm, BeautyUserForm, BeautyUserEditForm, DeleteBeautyUserForm
@@ -15,9 +16,6 @@ from Beauty.diary.models import Note, Post
 from Beauty.treatments.models import Treatment
 
 UserModel = get_user_model()
-
-
-
 
 
 class RegisterUserView(views.FormView):
@@ -47,11 +45,18 @@ class LogoutUserView(auth_views.LogoutView):
     pass
 
 
-class ProfileDetailsView(views.DetailView):
+class ProfileDetailsView(LoginRequiredMixin,UserPassesTestMixin,views.DetailView):
     template_name = 'accounts/profile-details-page.html'
     model = UserModel
     profile_image = static('images/logo.png')
 
+    def test_func(self):
+        # Check if the logged-in user is the owner of the profile
+        user = self.get_object()
+        return self.request.user == user
+
+    def handle_no_permission(self):
+        return HttpResponseRedirect(reverse_lazy('no_access'))
     def get_profile_image(self):
         if self.object.profile_picture is not None:
             return self.object.profile_picture
@@ -60,6 +65,7 @@ class ProfileDetailsView(views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.object  # Get the current user from the view's context
+
         is_practitioner = is_practitioner_group_user(user)
         user_notes = Note.objects.filter(user=user).order_by('-created_at')
         courses = Course.objects.all().order_by('-created_at')
@@ -76,10 +82,18 @@ class ProfileDetailsView(views.DetailView):
         return context
 
 
-class ProfileEditView(views.UpdateView):
+class ProfileEditView(LoginRequiredMixin,UserPassesTestMixin,views.UpdateView):
     model = UserModel
     form_class = BeautyUserEditForm
     template_name = 'accounts/profile-edit-page.html'
+
+    def test_func(self):
+        # Check if the logged-in user is the owner of the profile
+        user = self.get_object()
+        return self.request.user == user
+
+    def handle_no_permission(self):
+        return HttpResponseRedirect(reverse_lazy('no_access'))
     def get_object(self, **kwargs):
         return self.request.user
 
@@ -87,11 +101,17 @@ class ProfileEditView(views.UpdateView):
         return reverse_lazy('profile_details', args=[self.request.user.pk])
 
 
-class ProfileDeleteView(views.DeleteView):
+class ProfileDeleteView(LoginRequiredMixin,UserPassesTestMixin,views.DeleteView):
     template_name = 'accounts/profile-delete-page.html'
     form_class = DeleteBeautyUserForm
     success_url = reverse_lazy("index")
+    def test_func(self):
+        # Check if the logged-in user is the owner of the profile
+        user = self.get_object()
+        return self.request.user == user
 
+    def handle_no_permission(self):
+        return HttpResponseRedirect(reverse_lazy('no_access'))
     def get_object(self, **kwargs):
         return self.request.user
 

@@ -1,14 +1,21 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-
+from django.contrib.auth.models import Group
+from Beauty.accounts.decorators import is_admin_group_user
 from Beauty.common.forms import CommentForm
 from Beauty.common.models import Like, Comment
 from Beauty.courses.models import Course
-from Beauty.diary.models import Post
+from Beauty.diary.models import Post, Note
 from Beauty.treatments.models import Treatment
+from django.views import generic as views
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 
 
+UserModel = get_user_model()
 def index(request):
     return render(request,template_name='base.html')
 
@@ -17,14 +24,45 @@ def about(request):
     return render(request, template_name='common/about.html')
 
 
-
 class NoAccessView(TemplateView):
     template_name = 'no_access.html'
+
+
+class UserListView(LoginRequiredMixin,UserPassesTestMixin,views.ListView,):
+    model = UserModel
+    template_name = 'common/user_list.html'  # Replace with your template name
+
+    def test_func(self):
+        return self.request.user.is_staff
+    def handle_no_permission(self):
+        return HttpResponseRedirect(reverse_lazy('no_access'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = context['object_list']
+
+
+        user_data = []
+        for user in users:
+            user_courses = Course.objects.filter(user=user)
+            user_posts = Post.objects.filter(user=user)
+            user_notes = Note.objects.filter(user=user)
+            user_treatments = Treatment.objects.filter(user=user)
+
+            user_data.append({
+                'user': user,
+                'courses': user_courses,
+                'posts': user_posts,
+                'notes': user_notes,
+                'treatments': user_treatments,
+            })
+
+        context['user_data'] = user_data
+        return context
 
 @login_required
 def like_functionality(request, course_id):
     course = Course.objects.get(pk=course_id)
-
     kwargs = {
         'to_course': course,
         'user': request.user
@@ -39,14 +77,6 @@ def like_functionality(request, course_id):
     else:
         new_like_object = Like(**kwargs)
         new_like_object.save()
-
-    # http://127.0.0.1:8000/
-    return redirect(request.META['HTTP_REFERER'] + f"#{course_id}")
-
-
-@login_required
-def share_functionality(request, course_id):
-    # copy(request.META['HTTP_HOST'] + resolve_url('photo details', photo_id))
 
     return redirect(request.META['HTTP_REFERER'] + f"#{course_id}")
 
@@ -94,3 +124,5 @@ def delete_comment(request, comment_id):
 
     # Redirect back to the previous page
     return redirect(f"{request.META['HTTP_REFERER']}#{comment_id}")
+
+

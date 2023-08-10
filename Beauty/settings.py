@@ -10,10 +10,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-sc8=-)bdx&@0mu3**90e*5l#91(y94@m(81ter@2bxk2=@@gwe'
 
 
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = True
 
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
+ALLOWED_HOSTS = ['*']
 
 
 DATABASES = {
@@ -118,7 +118,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.BeautyUser'
 
 LOGIN_REDIRECT_URL = reverse_lazy('index')
-LOGIN_URL = reverse_lazy('login_user')
+LOGIN_URL = reverse_lazy('no_access')
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
 
 

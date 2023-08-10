@@ -1,15 +1,96 @@
 <!-- edit_post.html -->
 {% extends 'base.html' %}
+{% block title %}
+  Edit Treatment
+{% endblock %}
 {% block content %}
 
+ <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
 
+    <style>
+        h1 {
+          font-family: 'Tangerine', serif;
+          font-size: 100px;
+          text-shadow: 4px 4px 4px #aaa;
+        }
+
+
+        body {
+          background-color: snow;
+          font-family: Arial, sans-serif;
+        }
+
+        .edit-treatment-container {
+          max-width: 600px;
+          margin: 150px auto;
+          background-color: lavenderblush;
+          padding: 40px;
+          border-radius: 5px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-treatment-header {
+          text-align: center;
+          font-size: 24px;
+          color: deeppink;
+          margin-bottom: 20px;
+        }
+
+        .edit-treatment-form {
+          display: flex;
+          flex-direction: column;
+          max-width: 300px;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-group label {
+          display: block;
+          font-size: 16px;
+          color: #ffffff;
+          margin-bottom: 5px;
+        }
+
+        .form-group input {
+          padding: 10px;
+          border: 1px solid #f390a7; /* Pink border */
+          border-radius: 3px;
+          font-size: 16px;
+        }
+
+        .form-group input:focus {
+          outline: none;
+          border-color: #ff4d78; /* Brighter pink on focus */
+        }
+
+        .edit-treatment-button {
+          background-color: hotpink; /* Pink button */
+          color: #ffffff;
+          font-size: 16px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        .edit-treatment-button:hover {
+          background-color: deeppink; /* Slightly darker pink on hover */
+        }
+
+    </style>
+    <div class="edit-treatment-container">
+      <div class="edit-treatment-header"><h1>Edit Note</h1></div>
         <form action="{% url 'edit_treatment' pk=treatment.pk %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
 
-            <button class="edit-btn" type="submit">Edit Treatment</button>
-  <a href="{% url 'treatment_details' treatment.pk %}" class="btn btn-secondary">Cancel</a>
+            <button class="edit-treatment-button" type="submit">Edit</button>
+  <a href="{% url 'treatment_details' treatment.pk %}" class="edit-treatment-button">Cancel</a>
 
         </form>
-
+    </div>
 {% endblock %}

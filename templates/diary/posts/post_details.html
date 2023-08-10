@@ -65,7 +65,7 @@
                   <p class="u-text u-text-default u-text-3">{{ post.created_at}}</p>
                   <a href="{% url 'post_list' %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-3 u-palette-2-light-2 u-radius-6 u-btn-2">Back to posts</a>
 
-                        {% if user.is_authenticated and user == post.user %}
+                        {% if user.is_authenticated and user == post.user or is_admin %}
                             <a href="{% url 'post_edit' pk=post.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-4-dark-1 u-palette-2-light-3 u-radius-6 u-btn-3">Edit</a>
                             <a href="{% url 'delete_post' pk=post.pk %}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-6 u-btn-4">Delete</a>
                         {% endif %}
@@ -161,7 +161,7 @@
         background-color: #ff6384; /* Lighter pink */
     }
 </style>
-
+{% if user.is_authenticated %}
         <section>
     <div class="addComments">
         <div class="reaction">
@@ -180,6 +180,8 @@
 
     </div>
 </section>
+      {% endif %}
+
       <section class="u-clearfix u-section-1" id="sec-ae6b">
             <div class="u-clearfix u-sheet u-sheet-1">
                 <!-- Your existing course details content -->

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h1>Users</h1>
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Courses</th>
+        <th>Posts</th>
+        <th>Notes</th>
+        <th>Treatments</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for user in user_data %}
+        <tr>
+          <td>{{ user.user.username }}</td>
+            <td>
+            {% for course in user.courses %}
+             <li><a href="{% url 'details_course' course.pk %}">{{ course.title }}</a></li>
+            {% endfor %}
+          </td>
+          <td>
+            {% for post in user.posts %}
+             <li> <a href="{% url 'post_details' post.pk %}">{{ post.title }}</a></li>
+            {% endfor %}
+          </td>
+          <td>
+            {% for note in user.notes %}
+                <li> <a href="{% url 'note_details' note.pk %}">{{ note.title }}</a></li>
+            {% endfor %}
+          </td>
+          <td>
+            {% for treatment in user.treatments %}
+             <li><a href="{% url 'treatment_details' treatment.pk %}">{{ treatment.title }}</a> </li>
+            {% endfor %}
+          </td>
+
+
+            <td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
+
