@@ -9,13 +9,15 @@ class Course(models.Model):
         'body':'body',
         'hair':'hair'
     }
-    title = models.CharField(max_length=20,null=True,blank=True)
-    user = models.ForeignKey(UserModel,on_delete=models.CASCADE,null=True,blank=True)
-    other = models.CharField(max_length=20, null=True, blank=True)
+    title = models.CharField(max_length=20,null=False,blank=False)
+    user = models.ForeignKey(UserModel,on_delete=models.CASCADE,null=False,blank=False)
+
     body = models.TextField(null=True,blank=True)
     category = models.CharField(max_length=4, choices=[choice for choice in CHOICES.items()])
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     image = models.URLField(null=True,blank=True,)
 
     def __str__(self):

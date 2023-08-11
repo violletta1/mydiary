@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from Beauty.diary.models import Post,Note
 from django.contrib.auth import get_user_model
-from .forms import PostForm, PostEditForm, PostDeleteForm, NotesForm, NoteEditForm, NoteDeleteForm, \
+from .forms import PostEditForm, PostDeleteForm, NotesForm, NoteEditForm, NoteDeleteForm, \
     PostPractitionerForm, PostClientForm, PostEditPractitionerForm, PostEditClientForm
 from django.contrib.auth import mixins as auth_mixins
 from django.views import generic as views
@@ -16,86 +16,41 @@ UserModel = get_user_model()
 
 @login_required
 def create_post(request):
-    is_practitioner = is_practitioner_group_user(request.user)
-    is_client = is_client_group_user(request.user)
-    is_admin = is_admin_group_user(request.user)
-
-    # if is_admin:
-    #     form = PostForm()
-    #     if request.method == 'POST':
-    #         form = PostForm(request.POST)
-    if is_practitioner:
-        form = PostPractitionerForm()
-        if request.method == 'POST':
-            form = PostPractitionerForm(request.POST)
+    if is_practitioner_group_user(request.user):
+        form = PostPractitionerForm(request.user, request.POST or None)
     else:
-        form = PostClientForm()
-        if request.method == 'POST':
-            form = PostClientForm(request.POST)
+        form = PostClientForm(request.POST or None)
 
-    if form.is_valid():
-        post = form.save(commit=False)
-        post.user = request.user
-        post.save()
-        return redirect('post_list')
+    if request.method == 'POST':
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect('post_list')
+
     context = {
-            'form': form
-        }
-    return render(request, 'diary/posts/create_post.html', context=context)
+        'form': form
+    }
+    return render(request, 'diary/posts/create_post.html', context)
 
-    # if is_admin:
-    #     form = PostForm(request.POST or None)
-    # elif is_practitioner:
-    #     form = PostPractitionerForm(request.POST or None)
-    # else :
-    #     form = PostClientForm(request.POST or None)
-    #
-    # if form.is_valid():
-    #     form.instance.user = request.user
-    #     post = form.save(commit=False)
-    #
-    #     post.save()
-    #     return redirect('post_list')
-    # context = {
-    #         'form':form
-    #     }
-    # return render(request, 'diary/posts/create_post.html', context=context)
-
-    # if is_practitioner:
-    #     form = PostPractitionerForm()
-    #     if request.method == 'POST':
-    #         form = PostPractitionerForm(request.POST)
-    #         if form.is_valid():
-    #             form.instance.user = request.user
-    #             post = form.save(commit=False)
-    #
-    #             post.save()
-    #             return redirect('post_list')
-    #     context = {
-    #         'form':form
-    #     }
-    # elif is_client:
-    #     form = PostClientForm()
-    #     if request.method == 'POST':
-    #         form = PostClientForm(request.POST)
-    #         if form.is_valid():
-    #             post = form.save(commit=False)
-    #             post.user = request.user
-    #             post.save()
-    #             return redirect('post_list')
-    #     context = {
-    #         'form': form
-    #     }
-    # else:
-    #     form = PostClientForm()
-    #     context = {
-    #         'form': form
-    #     }
-    #
-    # return render(request, 'diary/posts/create_post.html', context=context)
-
-
-
+# @login_required
+# def create_post(request):
+#     if is_practitioner_group_user(request.user):
+#         form = PostPractitionerForm(request.POST or None)
+#     else:
+#         form = PostClientForm(request.POST or None)
+#
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.user = request.user
+#             post.save()
+#             return redirect('post_list')
+#
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'diary/posts/create_post.html', context)
 
 
 def post_list(request):

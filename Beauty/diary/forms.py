@@ -4,23 +4,35 @@ from ..courses.models import Course
 from ..treatments.models import Treatment
 
 
-class PostForm(forms.ModelForm):
+
+class PostPractitionerForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
         exclude = ['user']
 
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['treatment'].queryset = Treatment.objects.filter(user=user)
+        self.fields['course'].queryset = Course.objects.filter(user=user)
+
+
+# class PostClientForm(PostPractitionerForm):
+#     class Meta(PostPractitionerForm.Meta):
+#         exclude = ['user', 'treatment', 'course']
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['treatment'] = forms.ModelChoiceField(queryset=Treatment.objects.none())  # Placeholder field
+#         self.fields['course'] = forms.ModelChoiceField(queryset=Course.objects.none())  # Placeholder field
+#         self.fields['treatment'].widget = forms.HiddenInput()
+#         self.fields['course'].widget = forms.HiddenInput()
 class PostClientForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
-        exclude = ['user','treatment','course']
+        exclude = ['user','course','treatment']
 
-class PostPractitionerForm(PostForm):
-    class Meta:
-        model = Post
-        fields = '__all__'
-        exclude = ['user','course']
 
 
 class PostEditForm(forms.ModelForm):
@@ -37,11 +49,13 @@ class PostEditPractitionerForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
-        exclude = ['user','course']
+        exclude = ['user']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].disabled = True
+        self.fields['course'].disabled = True
+        self.fields['treatment'].disabled = True
 
 class PostEditClientForm(forms.ModelForm):
     class Meta:

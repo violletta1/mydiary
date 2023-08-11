@@ -49,8 +49,12 @@
               {% endif %}
             <div class="card-body">
               <p class="card-text">{{ treatment.title}}</p>
-            {% if treatment.user != current_user %}
-              <p class="card-text">Created by {{ treatment.user }}</p>
+            {% if treatment.user != request.user %}
+                {% if treatment.user.first_name or treatment.user.last_name%}
+              <p class="card-text">Created by {{ treatment.user.first_name }} {{ treatment.user.last_name }}</p>
+                    {% else %}
+                                  <p class="card-text">Created by {{ treatment.user }}</p>
+                    {% endif %}
             {% else %}
             <p class="card-text">Created by me</p>
             {% endif %}

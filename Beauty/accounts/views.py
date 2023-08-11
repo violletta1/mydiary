@@ -70,6 +70,7 @@ class ProfileDetailsView(LoginRequiredMixin,UserPassesTestMixin,views.DetailView
         user_notes = Note.objects.filter(user=user).order_by('-created_at')
         courses = Course.objects.all().order_by('-created_at')
         treatments = Treatment.objects.filter(user=user).order_by('-created_at')
+        courses = Course.objects.filter(user=user).order_by('-created_at')
         user_posts = Post.objects.filter(user=user).order_by('-created_at')
 
         context['is_practitioner'] = is_practitioner

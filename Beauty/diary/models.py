@@ -18,6 +18,16 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_user_courses(self):
+        if self.user:
+            return Course.objects.filter(user=self.user)
+        return Course.objects.none()
+
+    def get_user_treatments(self):
+        if self.user:
+            return Treatment.objects.filter(user=self.user)
+        return Treatment.objects.none()
+
 class Note(models.Model):
     CHOICES = {
         'rad': 'rad',

@@ -50,3 +50,4 @@ class BeautyUser(auth_models.AbstractUser):
 
     def __str__(self):
         return f'{self.username}'
+

@@ -65,7 +65,11 @@
             <div class="card-body">
               <p class="card-text">{{ course.title}}</p>
             {% if course.user != request.user %}
-              <p class="card-text">Created by {{ course.user }}</p>
+                {% if course.user.first_name or course.user.last_name%}
+              <p class="card-text">Created by {{ course.user.first_name }} {{ course.user.last_name }}</p>
+                    {% else %}
+                                  <p class="card-text">Created by {{ course.user }}</p>
+                    {% endif %}
             {% else %}
             <p class="card-text">Created by me</p>
             {% endif %}

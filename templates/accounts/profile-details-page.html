@@ -91,7 +91,7 @@
                             <a href="{% url 'post_details' post.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1">{{ post.title}}</a>
                         {% endfor %}
               {% else%}
-                    <a href="#" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No post yet</a>
+                    <a href="{% url 'post_create' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No post yet</a>
               {% endif %}
               </div>
             </div>
@@ -107,7 +107,7 @@
                 <a href="{% url 'note_details' note.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">{{ note.title }}</a>
                 {% endfor %}
               {% else %}
-               <a href="{% url 'post_create' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No notes yet</a>
+               <a href="{% url 'note_create' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No notes yet</a>
               {% endif %}
 
               </div>
@@ -119,7 +119,20 @@
                     <h5 class="u-text u-text-default u-text-white u-text-3">Courses</h5>
                   </div>
                 </div>
-                <a href="{% url 'list_courses' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">ALL COURSES</a>
+{#                <a href="{% url 'list_courses' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">ALL COURSES</a>#}
+                           {% if user.is_authenticated and is_practitioner %}
+                  {% if courses %}
+                {% for course in courses %}
+                <a href="{% url 'details_course' course.pk %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">{{ course.title }}</a>
+                {% endfor %}
+              {% else %}
+               <a href="{% url 'create_course' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">No courses yet</a>
+              {% endif %}
+              {% else %}
+
+               <a href="{% url 'list_courses' %}" class="u-border-1 u-border-active-palette-3-base u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-none u-radius-0 u-text-active-palette-2-dark-2 u-text-hover-palette-2-dark-1 u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">All courses</a>
+              {% endif %}
+
               </div>
             </div>
             <div class="u-align-center u-container-style u-hover-feature u-list-item u-radius-32 u-repeater-item u-shape-round u-white u-list-item-4" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
