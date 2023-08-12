@@ -1,8 +1,10 @@
 from enum import Enum
 
 from django.db import models
-from django.core import validators
+from django.core.validators import MinLengthValidator
 from django.contrib.auth import models as auth_models
+from Beauty.accounts.validators import letters
+
 
 class Gender(Enum):
     MALE= 1
@@ -13,20 +15,21 @@ class Gender(Enum):
     def choices(cls):
         return [(choice.value, choice.name) for choice in cls]
 
-# Create your models here.
+
 class BeautyUser(auth_models.AbstractUser):
+
     MIN_LENGTH = 2
     MAX_LENGTH = 30
 
     first_name = models.CharField(
         max_length=MAX_LENGTH,
-        validators=(validators.MinLengthValidator(MIN_LENGTH),),)
+        validators=[MinLengthValidator(MIN_LENGTH),letters],)
 
     last_name = models.CharField(
         max_length=MAX_LENGTH,
-        validators=(validators.MinLengthValidator(MIN_LENGTH),),)
+        validators=[MinLengthValidator(MIN_LENGTH),letters],)
 
-    email= models.EmailField(
+    email = models.EmailField(
         unique=True,
     )
     gender = models.IntegerField(
@@ -39,7 +42,7 @@ class BeautyUser(auth_models.AbstractUser):
     )
     address = models.CharField(
         max_length=MAX_LENGTH,
-        validators=(validators.MinLengthValidator(MIN_LENGTH),),
+        validators=(MinLengthValidator(MIN_LENGTH),),
     )
     bio = models.TextField(
         max_length=400,

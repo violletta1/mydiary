@@ -1,6 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+
+from django.http import HttpResponseRedirect
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -9,8 +8,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 
 from Beauty.accounts.decorators import is_practitioner_group_user
-from Beauty.accounts.forms import RegisterUserForm, BeautyUserForm, BeautyUserEditForm, DeleteBeautyUserForm
-from Beauty.accounts.models import BeautyUser
+from Beauty.accounts.forms import RegisterUserForm, BeautyUserEditForm, DeleteBeautyUserForm
+
 from Beauty.courses.models import Course
 from Beauty.diary.models import Note, Post
 from Beauty.treatments.models import Treatment
